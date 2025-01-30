@@ -1,0 +1,66 @@
+Steps for hosting application manualy on the server or using Docker...
+
+1-- create database on the aws console
+then connect using command 
+    -----mysql -h <rds end point> -u <username> -p
+2--- after connecting rds create database using command 
+            ---CREATE DATABASE <database name>
+            
+            
+3 ---- clone git repo to the local using command
+         ----git clone <repo url>
+         
+4-----after that entering into that dir --angular-java-develop
+                                     run this command...
+                                    mysql -h <database endpoint> -u <username> -p springbackend < springbackend.sql
+
+5--- again connect the database using same command to check the table is added or not into database
+                        -------------mysql -h <rds end point> -u <username> -p
+                                       show DATABASES;
+                                       USE <name>
+                                       show tables;
+                                       select*from 'database name'
+                                   
+6----- cd /Angular-java/angular-java-develop/spring-backend/src/main/resources
+7----vim application.properties
+8----make changes in the application.properties 
+9----install packages  being in the spring-backend dir
+          sudo apt update
+          sudo apt install openjdk-11-jdk
+          sudo apt install maven
+          mvn clean package -Dmaven.test.skip=true
+          java -jar target/spring-backend-v1.jar
+          
+          OR
+          by using docker file 
+          create docker file in the spring-backend dir
+          add the contents and save it
+          docker build . -t <image name>
+          docker images-----to verify the image
+          docker run -itd -P <img id> /bin/bash 
+          docker ps ----to verify container
+          
+10----check on the browser that backend is configure or not using
+         ec2 public ip:8080/api/v1/workers
+         
+11---- after that go to the frontend using 
+                  cd angular-frontend
+                  cd src
+                  cd app
+                  cd services
+                  vim worker.service.ts and replace localhost by 'ec2 public ip and the port no '
+12----after that go back to the angular-frontend and install the packages manualy as installed in spring-backend 
+                  
+          OR
+                  by using docker file
+                  create docker file in the angular-frontend dir
+          add the contents and save it
+          docker build . -t <image name>
+          docker images-----to verify the image
+          docker run -itd -P <img id> /bin/bash 
+          docker ps ----to verify container
+          
+          and check whether it is working or not 
+          Hit the public ip and port no on the browser
+          
+          -----------Thnak you-----------------------
